@@ -68,11 +68,14 @@ def main():
         data = [line.strip() for line in fp.readlines()]
 
     passports = get_passports(data)
+    num_p = len(passports)
+    print(f'total passports: {num_p}')
 
-#    part1 = sum([1 for p in passports if valid_passport1(p)])
-#    print('part 1 valid passports:', part1)
+    part1 = sum([1 for p in passports if valid_passport1(p)])
+    print(f'part 1 valid passports {part1}, percentage {round((part1/num_p)*100,1)}%')
+
     part2 = sum([1 for p in passports if valid_passport2(p)])
-    print('part 2 valid passports:', part2)
+    print(f'part 2 valid passports {part2}, percentage {round((part2/num_p)*100,1)}%')
 
 
 if __name__ == '__main__':
