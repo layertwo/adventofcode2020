@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import functools
 import math
 
 
@@ -16,28 +15,32 @@ class Sled:
         with open(filepath) as fp:
             self.data = [line.strip() for line in fp.readlines()]
         self.width = len(self.data[0])
+        self.x = 0
+        self.y = 0
+        self.placement = (0, 0)
 
-    @functools.lru_cache()
-    def new_position(self, placement, x, y):
+    def _new_position(self):
         """
         calc new position
         """
-        _x = (placement[0] + x) % self.width
-        _y = (placement[0] + y) % self.width
-
-        return (_x, _y)
+        _x = (self.placement[0] + self.x) % self.width
+        _y = (self.placement[0] + self.y) % self.width
+        self.placement = (_x, _y)
 
     def find_trees(self, x, y):
         """
         find the trees in the way based on slope
         """
-        placement = (0, 0)
+        self.x = x
+        self.y = y
+        self.placement = (0, 0)
         trees = 0
         for idx in range(0, len(self.data), abs(y)):
-            if self.data[idx][placement[0]] == '#':
+            if self.data[idx][self.placement[0]] == '#':
                 trees += 1
-            placement = self.new_position(placement, x, y)
+            self._new_position()
         return trees
+
 
 def main():
     """
