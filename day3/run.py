@@ -13,7 +13,7 @@ class Sled:
         init
         """
         with open(filepath) as fp:
-            self.data = [line.strip() for line in fp.readlines()]
+            self.data = fp.read().splitlines()
         self.width = len(self.data[0])
         self.x = 0
         self.y = 0

@@ -7,18 +7,17 @@ def get_passports(data):
     """
     get passports from file
     """
-    passports = []
     passport = {}
     for idx, line in enumerate(data):
         if not line:
-            passports.append(passport)
+            yield passport
             passport = {}
+            continue
 
         passport.update(dict(item.split(':') for item in line.split()))
 
         if idx + 1 == len(data):
-            passports.append(passport)
-    return passports
+            yield passport
 
 
 def valid_passport1(passport):
@@ -68,13 +67,13 @@ def main():
         data = [line.strip() for line in fp.readlines()]
 
     passports = get_passports(data)
-    num_p = len(passports)
+    num_p = sum(1 for _ in passports)
     print(f'total passports: {num_p}')
 
-    part1 = sum([1 for p in passports if valid_passport1(p)])
+    part1 = sum([1 for p in get_passports(data) if valid_passport1(p)])
     print(f'part 1 valid passports {part1}, percentage {round((part1/num_p)*100,1)}%')
 
-    part2 = sum([1 for p in passports if valid_passport2(p)])
+    part2 = sum([1 for p in get_passports(data) if valid_passport2(p)])
     print(f'part 2 valid passports {part2}, percentage {round((part2/num_p)*100,1)}%')
 
 

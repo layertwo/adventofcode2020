@@ -9,8 +9,7 @@ def part1(data):
     for _range, letter, password in data:
         letter = letter.replace(':', '')
         _min, _max = _range.split('-')
-        count = password.count(letter)
-        if int(_min) <= count <= int(_max):
+        if int(_min) <= password.count(letter) <= int(_max):
             valid += 1
 
     print('part 1 valid passwords:', valid)
@@ -45,7 +44,7 @@ def main():
     main
     """
     with open('input.txt') as fp:
-        data = [line.strip().split() for line in fp.readlines()]
+        data = [line.split() for line in fp.read().splitlines()]
 
     part1(data)
     part2(data)

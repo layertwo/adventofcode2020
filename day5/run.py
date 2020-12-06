@@ -33,16 +33,18 @@ def bn_search(_nums):
     return _min
 
 
-def get_seat(_input):
+def get_seats(_input):
     """
-    get seat from input
+    get seats from input
+    return iterable
     """
-    row = bn_space(_input[:7])
-    column = bn_space(_input[7:],
-                      _max=7,
-                      left='l',
-                      right='r')
-    return (row, column)
+    for line in _input:
+        row = bn_space(line[:7])
+        column = bn_space(line[7:],
+                          _max=7,
+                          left='l',
+                          right='r')
+        yield (row, column)
 
 
 def get_seat_id(row, column):
@@ -67,13 +69,12 @@ def main():
     main
     """
     with open('input.txt') as fp:
-        data = [line.strip() for line in fp.readlines()]
+        data = fp.read().splitlines()
 
-    seats = [get_seat(d) for d in data]
-    max_seat = sorted(seats, reverse=True)[0]
+    max_seat = sorted(get_seats(data), reverse=True)[0]
     print(f'row {max_seat[0]}, column {max_seat[1]}, seat id {get_seat_id(*max_seat)}')
 
-    my_seat = find_my_seat(seats, _max=max_seat[0])
+    my_seat = find_my_seat(get_seats(data), _max=max_seat[0])
     print(f'row {my_seat[0]}, column {my_seat[1]}, seat id {get_seat_id(*my_seat)}')
 
 
