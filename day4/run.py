@@ -66,8 +66,7 @@ def main():
     with open('input.txt') as fp:
         data = [line.strip() for line in fp.readlines()]
 
-    passports = get_passports(data)
-    num_p = sum(1 for _ in passports)
+    num_p = sum(1 for _ in get_passports(data))
     print(f'total passports: {num_p}')
 
     part1 = sum([1 for p in get_passports(data) if valid_passport1(p)])
